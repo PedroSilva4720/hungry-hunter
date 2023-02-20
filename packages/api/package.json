@@ -1,0 +1,16 @@
+{
+  "name": "@hungry-hunter/api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Pedro Silva <pedro@andoras.com.br>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsx watch src/server.ts"
+  },
+  "dependencies": {
+    "fastify": "^4.13.0"
+  },
+  "devDependencies": {
+    "tsx": "^3.12.3"
+  }
+}
