@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.10.1",
+    "argon2": "^0.30.3",
     "date-fns": "^2.29.3",
     "fastify": "^4.13.0"
   },
