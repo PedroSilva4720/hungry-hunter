@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import { ProductRouter } from './routes/product';
 import { RestaurantRouter } from './routes/restaurant';
 
 const app = fastify({
@@ -6,6 +7,7 @@ const app = fastify({
 });
 
 app.register(RestaurantRouter, { prefix: '/restaurant' });
+app.register(ProductRouter, { prefix: '/product' });
 
 app.listen({ port: 9001 }, function (err, address) {
   if (err) {

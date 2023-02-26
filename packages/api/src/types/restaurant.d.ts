@@ -1,3 +1,5 @@
+import { Product } from './product';
+
 export type Restaurant = {
   id: string;
   name: string;
@@ -6,4 +8,5 @@ export type Restaurant = {
   email: string;
   passwordHash: string;
   createdAt: string;
+  product?: Product[];
 };

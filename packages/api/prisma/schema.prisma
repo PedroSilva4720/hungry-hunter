@@ -11,11 +11,21 @@ datasource db {
 }
 
 model restaurant {
-  id           String @unique @default(cuid())
+  id           String    @unique @default(cuid())
   name         String
   address      String
   phoneNumber  String
-  email        String @unique
+  email        String    @unique
   passwordHash String
   createdAt    String
+  products     product[]
+}
+
+model product {
+  id           String     @unique @default(cuid())
+  name         String
+  description  String
+  price        Float
+  restaurant   restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
 }
