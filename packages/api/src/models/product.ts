@@ -30,7 +30,7 @@ export class ProductModel {
   async create() {
     const Repository = new ProductRepositories();
 
-    Repository.create({
+    await Repository.create({
       name: this.name,
       price: this.price,
       description: this.description,

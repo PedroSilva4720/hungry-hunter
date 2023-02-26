@@ -24,7 +24,8 @@ export class ProductControllers {
       price,
     });
 
-    Model.create();
+    await Model.create();
+    return;
   }
 
   async findById(req: FastifyRequest, rep: FastifyReply) {
