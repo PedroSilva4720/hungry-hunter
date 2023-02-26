@@ -24,6 +24,10 @@ export class RestaurantControllers {
       phoneNumber,
       unHashedPassword: password,
     });
+
+    await Model.create();
+
+    return rep.status(201).send();
   }
 
   async findById(req: FastifyRequest, rep: FastifyReply) {

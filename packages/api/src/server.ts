@@ -1,12 +1,11 @@
 import fastify from 'fastify';
+import { RestaurantRouter } from './routes/restaurant';
 
 const app = fastify({
   logger: true,
 });
 
-app.get('/', (req, rep) => {
-  return { message: 'Hello World' };
-});
+app.register(RestaurantRouter, { prefix: '/restaurant' });
 
 app.listen({ port: 9001 }, function (err, address) {
   if (err) {

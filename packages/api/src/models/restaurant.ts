@@ -15,7 +15,7 @@ export class RestaurantModels {
   private passwordHash: string;
 
   async create(): Promise<void> {
-    this.createdAt = format(new Date(), 'yyyy/mm/dd HH:MM:ss', {
+    this.createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss', {
       locale: ptBR,
     });
 
