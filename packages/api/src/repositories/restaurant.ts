@@ -11,7 +11,7 @@ export class RestaurantRepository {
     phoneNumber,
     passwordHash,
     createdAt,
-  }: Omit<Restaurant, 'id'>): Promise<void> {
+  }: Omit<Restaurant, 'id' | 'product'>): Promise<void> {
     await prisma.restaurant.create({
       data: {
         name,
