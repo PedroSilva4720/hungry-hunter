@@ -1,5 +1,7 @@
 import { FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
 import { RestaurantModels } from '../models/restaurant';
+
+import { Restaurant } from '../types/restaurant';
 import { z } from 'zod';
 
 export class RestaurantControllers {
