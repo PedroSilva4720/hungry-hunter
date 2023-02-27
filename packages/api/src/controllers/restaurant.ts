@@ -44,4 +44,14 @@ export class RestaurantControllers {
 
     return restaurant;
   }
+
+  async findProducts(req, rep: FastifyReply) {
+    const { id } = req.params;
+
+    const Model = new RestaurantModels();
+
+    const products = await Model.findProducts({ id });
+
+    return products;
+  }
 }

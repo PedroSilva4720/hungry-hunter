@@ -40,4 +40,11 @@ export class RestaurantModels {
 
     return restaurant;
   }
+  async findProducts({ id }: Pick<Restaurant, 'id'>) {
+    const Repository = new RestaurantRepository();
+
+    const products = await Repository.findProducts({ id });
+
+    return products;
+  }
 }

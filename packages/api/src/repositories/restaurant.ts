@@ -32,4 +32,16 @@ export class RestaurantRepository {
     });
     return restaurant;
   }
+
+  async findProducts({ id }: Pick<Restaurant, 'id'>) {
+    const products = await prisma.restaurant.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        products: true,
+      },
+    });
+    return products;
+  }
 }

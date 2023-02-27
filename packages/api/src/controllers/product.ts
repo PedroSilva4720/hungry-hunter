@@ -28,12 +28,8 @@ export class ProductControllers {
     return;
   }
 
-  async findById(req: FastifyRequest, rep: FastifyReply) {
-    const findRestaurantByIdSchema = z.object({
-      id: z.string(),
-    });
-
-    const { id } = findRestaurantByIdSchema.parse(req.body);
+  async findById(req, rep: FastifyReply) {
+    const { id } = req.params;
 
     const Model = new ProductModel();
 

@@ -3,5 +3,5 @@ import { FastifyInstance } from 'fastify';
 
 export const ProductRouter = async (fastify: FastifyInstance) => {
   fastify.post('/', await new ProductControllers().create);
-  fastify.post('/id', await new ProductControllers().findById);
+  fastify.get('/:id', await new ProductControllers().findById);
 };
