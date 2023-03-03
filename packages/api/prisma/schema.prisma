@@ -29,3 +29,20 @@ model product {
   restaurant   restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
 }
+
+model user {
+  id           String  @unique @default(cuid())
+  name         String
+  email        String  @unique
+  passwordHash String
+  order        order[]
+}
+
+model order {
+  id          String  @unique @default(cuid())
+  createdAt   String
+  deliveredAt String?
+  user        user    @relation(fields: [userId], references: [id])
+  userId      String
+  productId   String
+}

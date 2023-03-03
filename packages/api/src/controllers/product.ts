@@ -1,18 +1,9 @@
 import { ProductModel } from './../models/product';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { z } from 'zod';
 
 export class ProductControllers {
-  async create(req: FastifyRequest, rep: FastifyReply) {
-    const createProductSchema = z.object({
-      name: z.string(),
-      description: z.string(),
-      price: z.number(),
-      restaurantId: z.string(),
-    });
-
-    const { name, description, price, restaurantId } =
-      createProductSchema.parse(req.body);
+  async create(req, rep: FastifyReply) {
+    const { name, description, price, restaurantId } = req.body;
 
     const Model = new ProductModel();
 

@@ -1,20 +1,9 @@
-import { FastifyReply, FastifyRequest, FastifySchema } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { RestaurantModels } from '../models/restaurant';
 
-import { z } from 'zod';
-
 export class RestaurantControllers {
-  async create(req: FastifyRequest, rep: FastifyReply) {
-    const createRestaurantSchema = z.object({
-      name: z.string(),
-      email: z.string(),
-      address: z.string(),
-      phoneNumber: z.string(),
-      password: z.string(),
-    });
-
-    const { name, email, address, phoneNumber, password } =
-      createRestaurantSchema.parse(req.body);
+  async create(req, rep: FastifyReply) {
+    const { name, email, address, phoneNumber, password } = req.body;
 
     const Model = new RestaurantModels();
 
@@ -31,12 +20,8 @@ export class RestaurantControllers {
     return rep.status(201).send();
   }
 
-  async findById(req: FastifyRequest, rep: FastifyReply) {
-    const findRestaurantByIdSchema = z.object({
-      id: z.string(),
-    });
-
-    const { id } = findRestaurantByIdSchema.parse(req.body);
+  async findById(req, rep: FastifyReply) {
+    const { id } = req.body;
 
     const Model = new RestaurantModels();
 
@@ -45,12 +30,12 @@ export class RestaurantControllers {
     return restaurant;
   }
 
-  async findProducts(req, rep: FastifyReply) {
-    const { id } = req.params;
+  async findProducts(req: FastifyRequest, rep: FastifyReply) {
+    const id = req.params;
 
     const Model = new RestaurantModels();
 
-    const products = await Model.findProducts({ id });
+    const products = await Model.findProducts({ id } as { id: string });
 
     return products;
   }
