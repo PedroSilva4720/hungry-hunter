@@ -1,5 +1,5 @@
-import { theme } from './../../theme';
 import { StyleSheet } from 'react-native';
+import { theme } from '../../theme';
 
 export const styles = StyleSheet.create({
   container: {
@@ -12,18 +12,5 @@ export const styles = StyleSheet.create({
     width: '70%',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  forgotPasswordContainer: {
-    left: 0,
-    width: '100%',
-  },
-  forgotPassword: {
-    fontFamily: 'Inter_300Light',
-    fontSize: 12,
-  },
-  newUser: {
-    fontFamily: 'Inter_300Light',
-    fontSize: 12,
-    textDecorationLine: 'underline',
   },
 });
