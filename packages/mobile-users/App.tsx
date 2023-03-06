@@ -4,9 +4,25 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Login } from './screens/login';
 import { CreateUser } from './screens/createUser';
 
+import {
+  useFonts,
+  Inter_500Medium,
+  Inter_700Bold,
+  Inter_300Light,
+} from '@expo-google-fonts/inter';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Inter_500Medium,
+    Inter_700Bold,
+    Inter_300Light,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <NavigationContainer>
       <Stack.Navigator
