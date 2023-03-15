@@ -11,4 +11,24 @@ export class UserRepository {
       },
     });
   }
+
+  async verifyExistentUser({ email }: Pick<User, 'email'>) {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return user;
+  }
+
+  async verifyExistentUserById({ id }: Pick<User, 'id'>) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return user;
+  }
 }
