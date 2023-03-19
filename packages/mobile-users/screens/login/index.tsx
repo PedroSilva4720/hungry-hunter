@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { styles } from './styles';
 
@@ -15,17 +16,16 @@ export const Login = ({ navigation }: { navigation: any }) => {
 
   const handleSubmit = () => {
     axiosInstance
-      .post(
-        '/user/',
-        {},
-        {
-          auth: {
-            username: userEmail!,
-            password: userPassword!,
-          },
-        }
-      )
+      .get('/user/', {
+        auth: {
+          username: userEmail!,
+          password: userPassword!,
+        },
+      })
       .then(response => {
+        AsyncStorage.setItem('token', response.data.jwt).then(console.log);
+      })
+      .catch(response => {
         console.log(response);
       });
   };

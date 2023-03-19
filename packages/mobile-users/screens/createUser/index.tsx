@@ -1,8 +1,12 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { SubmitButtonComponent } from '../../components/submitButtonComponent';
 import { TextInputComponent } from '../../components/textInputComponent';
 import { TitleComponent } from '../../components/titleComponent';
+
+import { axiosInstance } from '../../axios';
 import { styles } from './styles';
 
 export const CreateUser = () => {
@@ -12,7 +16,24 @@ export const CreateUser = () => {
   const [confirmUserPassword, setConfirmUserPassword] =
     React.useState<string>();
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    try {
+      if (userPassword == confirmUserPassword) {
+        axiosInstance
+          .post('user/create', {
+            name: userName,
+            email: userEmail,
+            unHashedPassword: userPassword,
+          })
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(response => console.log(response));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
