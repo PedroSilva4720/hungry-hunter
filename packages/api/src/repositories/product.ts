@@ -28,4 +28,24 @@ export class ProductRepositories {
 
     return product;
   }
+
+  async listProducts() {
+    const products = await prisma.product.findMany({
+      take: 10,
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        restaurant: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    return products;
+  }
 }
