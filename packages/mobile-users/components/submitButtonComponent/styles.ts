@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.red.standard,
   },
   buttonText: {
+    textAlign: 'center',
     color: theme.colors.white.standard,
     fontFamily: 'Inter_500Medium',
   },

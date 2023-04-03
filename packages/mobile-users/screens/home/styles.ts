@@ -1,0 +1,11 @@
+import { theme } from './../../theme';
+import { StyleSheet, StatusBar } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: theme.colors.white.standard,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+});
