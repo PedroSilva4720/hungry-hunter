@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, FlatList, SafeAreaView } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
 
 import { styles } from './styles';
 
 import { axiosInstance } from '../../axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Product } from '../../types/Product';
 import { CardComponent } from '../../components/cardComponent';
-import { SubmitButtonComponent } from '../../components/submitButtonComponent';
 
-export const Home = () => {
+export const Home = ({ navigation }: { navigation: any }) => {
   const [products, setProducts] = useState<Product[]>();
+  const [auth, setAuth] = useState<string>();
+
   useEffect(() => {
+    AsyncStorage.getItem('token').then(token => {
+      if (token) {
+        setAuth(token);
+      } else {
+        navigation.push('Login');
+      }
+    });
     axiosInstance.get('/product').then(data => {
       if (data) {
         setProducts(data.data.products);
       }
     });
   }, []);
-
-  const orderSubmit = () => {};
 
   return (
     <>

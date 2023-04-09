@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { styles } from './styles';
@@ -14,6 +14,10 @@ export const Login = ({ navigation }: { navigation: any }) => {
   const [userEmail, setUserEmail] = React.useState<string>();
   const [userPassword, setUserPassword] = React.useState<string>();
 
+  useEffect(() => {
+    AsyncStorage.removeItem('token');
+  }, []);
+
   const handleSubmit = () => {
     axiosInstance
       .get('/user/', {
@@ -24,7 +28,7 @@ export const Login = ({ navigation }: { navigation: any }) => {
       })
       .then(async response => {
         await AsyncStorage.setItem('token', response.data.jwt);
-        console.log(await AsyncStorage.getItem('token'));
+        navigation.push('Home');
       })
       .catch(response => {
         console.log(response);
