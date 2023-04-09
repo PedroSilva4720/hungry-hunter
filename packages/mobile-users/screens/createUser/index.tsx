@@ -1,6 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SafeAreaView, Text, View } from 'react-native';
 
 import { SubmitButtonComponent } from '../../components/submitButtonComponent';
 import { TextInputComponent } from '../../components/textInputComponent';
@@ -36,37 +35,41 @@ export const CreateUser = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TitleComponent />
-      <Text>Dados do novo usuário</Text>
-      <View style={styles.form}>
-        <TextInputComponent
-          label='Name'
-          value={userName}
-          setValue={setUserName}
-        />
-        <TextInputComponent
-          label='Email'
-          value={userEmail}
-          setValue={setUserEmail}
-        />
-        <TextInputComponent
-          label='Senha'
-          passwordSecure
-          value={userPassword}
-          setValue={setUserPassword}
-        />
-        <TextInputComponent
-          label='Confirmar senha'
-          passwordSecure
-          value={confirmUserPassword}
-          setValue={setConfirmUserPassword}
-        />
-        <SubmitButtonComponent
-          label='Criar usuário'
-          submitFunction={handleSubmit}
-        />
-      </View>
-    </View>
+    <>
+      <SafeAreaView>
+        <View style={styles.container}>
+          <TitleComponent />
+          <Text>Dados do novo usuário</Text>
+          <View style={styles.form}>
+            <TextInputComponent
+              label='Name'
+              value={userName}
+              setValue={setUserName}
+            />
+            <TextInputComponent
+              label='Email'
+              value={userEmail}
+              setValue={setUserEmail}
+            />
+            <TextInputComponent
+              label='Senha'
+              passwordSecure
+              value={userPassword}
+              setValue={setUserPassword}
+            />
+            <TextInputComponent
+              label='Confirmar senha'
+              passwordSecure
+              value={confirmUserPassword}
+              setValue={setConfirmUserPassword}
+            />
+            <SubmitButtonComponent
+              label='Criar usuário'
+              submitFunction={handleSubmit}
+            />
+          </View>
+        </View>
+      </SafeAreaView>
+    </>
   );
 };

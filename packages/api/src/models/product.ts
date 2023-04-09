@@ -43,4 +43,12 @@ export class ProductModel {
 
     Repository.findById({ id });
   }
+
+  async listProducts() {
+    const Repository = new ProductRepositories();
+
+    const products = await Repository.listProducts();
+
+    return products;
+  }
 }

@@ -3,6 +3,9 @@ export const theme = {
     red: {
       standard: '#c62828',
     },
+    mauve: {
+      mauve1: '#efefef',
+    },
     orange: {
       standard: '#ff5722',
     },

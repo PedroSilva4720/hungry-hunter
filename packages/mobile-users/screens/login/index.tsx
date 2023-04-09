@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +14,10 @@ export const Login = ({ navigation }: { navigation: any }) => {
   const [userEmail, setUserEmail] = React.useState<string>();
   const [userPassword, setUserPassword] = React.useState<string>();
 
+  useEffect(() => {
+    AsyncStorage.removeItem('token');
+  }, []);
+
   const handleSubmit = () => {
     axiosInstance
       .get('/user/', {
@@ -22,8 +26,9 @@ export const Login = ({ navigation }: { navigation: any }) => {
           password: userPassword!,
         },
       })
-      .then(response => {
-        AsyncStorage.setItem('token', response.data.jwt).then(console.log);
+      .then(async response => {
+        await AsyncStorage.setItem('token', response.data.jwt);
+        navigation.push('Home');
       })
       .catch(response => {
         console.log(response);
@@ -31,32 +36,39 @@ export const Login = ({ navigation }: { navigation: any }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TitleComponent />
-      <Text>Entrar</Text>
-      <View style={styles.form}>
-        <TextInputComponent
-          label='Email'
-          value={userEmail}
-          setValue={setUserEmail}
-        />
-        <TextInputComponent
-          label='Senha'
-          passwordSecure
-          value={userPassword}
-          setValue={setUserPassword}
-        />
-        <View style={styles.forgotPasswordContainer}>
-          <TouchableOpacity>
-            <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
-          </TouchableOpacity>
+    <>
+      <>
+        <View style={styles.container}>
+          <TitleComponent />
+          <Text>Entrar</Text>
+          <View style={styles.form}>
+            <TextInputComponent
+              label='Email'
+              value={userEmail}
+              setValue={setUserEmail}
+            />
+            <TextInputComponent
+              label='Senha'
+              passwordSecure
+              value={userPassword}
+              setValue={setUserPassword}
+            />
+            <View style={styles.forgotPasswordContainer}>
+              <TouchableOpacity>
+                <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
+              </TouchableOpacity>
+            </View>
+            <SubmitButtonComponent
+              label='Login'
+              submitFunction={handleSubmit}
+            />
+            <TouchableOpacity onPress={() => navigation.navigate('CreateUser')}>
+              <Text style={styles.newUser}>Não possui cadastro?</Text>
+            </TouchableOpacity>
+          </View>
+          <StatusBar style='dark' />
         </View>
-        <SubmitButtonComponent label='Login' submitFunction={handleSubmit} />
-        <TouchableOpacity onPress={() => navigation.navigate('CreateUser')}>
-          <Text style={styles.newUser}>Não possui cadastro?</Text>
-        </TouchableOpacity>
-      </View>
-      <StatusBar style='dark' />
-    </View>
+      </>
+    </>
   );
 };

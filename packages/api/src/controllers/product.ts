@@ -7,7 +7,7 @@ export class ProductControllers {
 
     const Model = new ProductModel();
 
-    Model.restaurantId = restaurantId;
+    Model.restaurantId = await restaurantId;
 
     Object.assign(Model, {
       name,
@@ -27,5 +27,12 @@ export class ProductControllers {
     const product = await Model.findById({ id });
 
     return product;
+  }
+  async listProducts(req, rep) {
+    const Model = new ProductModel();
+
+    const products = await Model.listProducts();
+
+    return { products };
   }
 }

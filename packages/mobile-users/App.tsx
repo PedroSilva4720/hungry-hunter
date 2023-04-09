@@ -1,3 +1,4 @@
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -10,6 +11,7 @@ import {
   Inter_700Bold,
   Inter_300Light,
 } from '@expo-google-fonts/inter';
+import { Home } from './screens/home';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +25,7 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -30,6 +33,7 @@ export default function App() {
           headerShown: false,
         }}
       >
+        <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Login' component={Login} />
         <Stack.Screen name='CreateUser' component={CreateUser} />
       </Stack.Navigator>
