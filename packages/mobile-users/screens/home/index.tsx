@@ -4,7 +4,8 @@ import { FlatList, SafeAreaView } from 'react-native';
 import { styles } from './styles';
 
 import { axiosInstance } from '../../axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import * as SecureStore from 'expo-secure-store';
 
 import { Product } from '../../types/Product';
 import { CardComponent } from '../../components/cardComponent';
@@ -14,7 +15,7 @@ export const Home = ({ navigation }: { navigation: any }) => {
   const [auth, setAuth] = useState<string>();
 
   useEffect(() => {
-    AsyncStorage.getItem('token').then(token => {
+    SecureStore.getItemAsync('token').then((token: string | null) => {
       if (token) {
         setAuth(token);
       } else {

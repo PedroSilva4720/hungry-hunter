@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 
 import { styles } from './styles';
 
@@ -15,7 +15,7 @@ export const Login = ({ navigation }: { navigation: any }) => {
   const [userPassword, setUserPassword] = React.useState<string>();
 
   useEffect(() => {
-    AsyncStorage.removeItem('token');
+    SecureStore.setItemAsync('token', '');
   }, []);
 
   const handleSubmit = () => {
@@ -27,7 +27,7 @@ export const Login = ({ navigation }: { navigation: any }) => {
         },
       })
       .then(async response => {
-        await AsyncStorage.setItem('token', response.data.jwt);
+        await SecureStore.setItemAsync('token', response.data.jwt);
         navigation.push('Home');
       })
       .catch(response => {
