@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "outDir": "dist/js",
+        "rootDir": "./src",
+        "target": "ES2021",
+        "noEmitOnError": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "baseUrl": ".",
+        "paths": {
+            "@controllers/*": ["src/controllers/*"],
+            "@middlewares/*": ["src/middlewares/*"],
+            "@routes/*": ["src/routes/*"],
+            "@models/*": ["src/models/*"],
+            "@repo/*": ["src/repositories/*"],
+            "@t/*": ["src/types/*"],
+            "@@/*": ["src/*"],
+        }
+    },
+    "include": [
+        "src/**/*"
+    ]
+}
