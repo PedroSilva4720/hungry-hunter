@@ -1,20 +1,22 @@
-import { prisma } from '../prisma/prisma';
-import { ProductRepositories } from '../repositories/product';
-import { Product } from '../types/product';
-import { Restaurant } from '../types/restaurant';
+import { prisma } from '@@/prisma/prisma';
+import { IProductModel, IProductRepository, Product } from '@t/product';
+import { Restaurant } from '@t/restaurant';
 
-export class ProductModel {
+export class ProductModel implements IProductModel {
   public id: string;
   public name: string;
   public description: string;
   public price: number;
   private _restaurantId: string;
   private _restaurant: Promise<Restaurant | null>;
-  get restaurantId() {
-    return this.restaurantId;
+
+  constructor(private productRepository: IProductRepository) {}
+
+  get restaurantI() {
+    return this._restaurantId;
   }
 
-  set restaurantId(id) {
+  set restaurantId(id: Product['id']) {
     const restaurant = Promise.resolve(
       prisma.restaurant.findUnique({
         where: {
@@ -28,26 +30,23 @@ export class ProductModel {
     }
   }
   async create() {
-    const Repository = new ProductRepositories();
-
-    await Repository.create({
-      name: this.name,
-      price: this.price,
-      description: this.description,
-      restaurantId: this._restaurantId,
-    });
+    await this.productRepository.create(
+      {
+        name: this.name,
+        price: this.price,
+        description: this.description,
+        restaurant: {},
+      },
+      this._restaurantId
+    );
   }
 
-  async findById({ id }: Pick<Product, 'id'>) {
-    const Repository = new ProductRepositories();
-
-    Repository.findById({ id });
+  async findById(id: Product['id']) {
+    return await this.productRepository.findById(id);
   }
 
   async listProducts() {
-    const Repository = new ProductRepositories();
-
-    const products = await Repository.listProducts();
+    const products = await this.productRepository.listProducts();
 
     return products;
   }

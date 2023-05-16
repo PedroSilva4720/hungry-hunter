@@ -1,14 +1,12 @@
-import { Product } from './../types/product.d';
-import { prisma } from '../prisma/prisma';
-import { Restaurant } from './../types/restaurant.d';
+import { CreateProductInput, IProductRepository, Product } from '@t/product';
+import { prisma } from '@@/prisma/prisma';
+import { Restaurant } from '@t/restaurant';
 
-export class ProductRepositories {
-  async create({
-    name,
-    price,
-    description,
-    restaurantId,
-  }: Omit<Product, 'restaurant' | 'id'>) {
+export class ProductRepositories implements IProductRepository {
+  async create(
+    { name, price, description }: CreateProductInput,
+    restaurantId: Restaurant['id']
+  ) {
     await prisma.product.create({
       data: {
         name,
@@ -19,7 +17,7 @@ export class ProductRepositories {
     });
   }
 
-  async findById({ id }: Pick<Product, 'id'>) {
+  async findById(id: Product['id']) {
     const product = await prisma.product.findUnique({
       where: {
         id,

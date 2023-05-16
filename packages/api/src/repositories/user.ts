@@ -1,8 +1,8 @@
-import { prisma } from '../prisma/prisma';
-import { User } from '../types/user';
+import { prisma } from '@@/prisma/prisma';
+import { CreateUserInput, IUserRepository, User } from '@t/user';
 
-export class UserRepository {
-  async create({ email, name, passwordHash }: Omit<User, 'id'>) {
+export class UserRepository implements IUserRepository {
+  async create({ email, name, passwordHash }: CreateUserInput) {
     await prisma.user.create({
       data: {
         name,
@@ -12,7 +12,7 @@ export class UserRepository {
     });
   }
 
-  async verifyExistentUser({ email }: Pick<User, 'email'>) {
+  async verifyExistentUser(email: User['email']) {
     const user = await prisma.user.findUnique({
       where: {
         email,
@@ -22,7 +22,7 @@ export class UserRepository {
     return user;
   }
 
-  async verifyExistentUserById({ id }: Pick<User, 'id'>) {
+  async verifyExistentUserById(id: User['id']) {
     const user = await prisma.user.findUnique({
       where: {
         id,

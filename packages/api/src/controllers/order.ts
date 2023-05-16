@@ -1,10 +1,13 @@
-import { OrderModels } from '../models/order';
+import { OrderModels } from '@models/order';
+import { OrderRepositories } from '@repo/order';
+import { IOrderController } from '@t/order';
 
-export class OrderControllers {
+export class OrderControllers implements IOrderController {
   async create(req, rep) {
     const { userId, productId } = req.params;
 
-    const Model = new OrderModels();
+    const Repository = new OrderRepositories();
+    const Model = new OrderModels(Repository);
 
     Object.assign(Model, {
       userId,

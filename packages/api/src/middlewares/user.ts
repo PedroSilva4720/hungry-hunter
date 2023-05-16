@@ -1,8 +1,7 @@
 import { verify } from 'argon2';
 import { sign, verify as verifyJWT } from 'jsonwebtoken';
-
-import { UserRepository } from '../repositories/user';
-import { User } from '../types/user';
+import { UserRepository } from '@repo/user';
+import { User } from '@t/user';
 
 export class UserMiddlewares {
   public jwt: string;
@@ -13,9 +12,7 @@ export class UserMiddlewares {
   async verifyExistentUser() {
     const Repository = new UserRepository();
 
-    const user: User | null = await Repository.verifyExistentUser({
-      email: this.email,
-    });
+    const user: User | null = await Repository.verifyExistentUser(this.email);
 
     if (!user) {
       throw new Error('Verifique o email ou a senha.');
@@ -49,7 +46,7 @@ export class UserMiddlewares {
   async verifyJWT(id: string) {
     const Repository = new UserRepository();
 
-    const user = await Repository.verifyExistentUserById({ id });
+    const user = await Repository.verifyExistentUserById(id);
 
     const result = verifyJWT(this.jwt, process.env.SECRET!);
 

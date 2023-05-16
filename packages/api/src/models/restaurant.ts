@@ -1,10 +1,13 @@
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { RestaurantRepository } from '../repositories/restaurant';
-import { Restaurant } from '../types/restaurant';
+import {
+  Restaurant,
+  IRestaurantRepository,
+  IRestaurantModel,
+} from '@t/restaurant';
 import { hash } from 'argon2';
 
-export class RestaurantModels {
+export class RestaurantModels implements IRestaurantModel {
   public id: string;
   public name: string;
   public email: string;
@@ -14,16 +17,16 @@ export class RestaurantModels {
   private createdAt: string;
   private passwordHash: string;
 
-  async create(): Promise<void> {
+  constructor(private restaurantRepository: IRestaurantRepository) {}
+
+  async create() {
     this.createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss', {
       locale: ptBR,
     });
 
     this.passwordHash = await hash(this.unHashedPassword);
 
-    const Repository = new RestaurantRepository();
-
-    Repository.create({
+    this.restaurantRepository.create({
       name: this.name,
       email: this.email,
       address: this.address,
@@ -33,17 +36,13 @@ export class RestaurantModels {
     });
   }
 
-  async findById({ id }: Pick<Restaurant, 'id'>): Promise<Restaurant | null> {
-    const Repository = new RestaurantRepository();
-
-    const restaurant = await Repository.findById(id);
+  async findById(id: Restaurant['id']) {
+    const restaurant = await this.restaurantRepository.findById(id);
 
     return restaurant;
   }
-  async findProducts({ id }: Pick<Restaurant, 'id'>) {
-    const Repository = new RestaurantRepository();
-
-    const products = await Repository.findProducts({ id });
+  async findProducts(id: Restaurant['id']) {
+    const products = await this.restaurantRepository.findProducts(id);
 
     return products;
   }

@@ -1,9 +1,11 @@
-import { prisma } from '../prisma/prisma';
-import { format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
-import { Restaurant } from '../types/restaurant';
+import { prisma } from '@@/prisma/prisma';
+import {
+  CreateRestaurantInput,
+  IRestaurantRepository,
+  Restaurant,
+} from '@t/restaurant';
 
-export class RestaurantRepository {
+export class RestaurantRepository implements IRestaurantRepository {
   async create({
     name,
     email,
@@ -11,7 +13,7 @@ export class RestaurantRepository {
     phoneNumber,
     passwordHash,
     createdAt,
-  }: Omit<Restaurant, 'id' | 'product'>): Promise<void> {
+  }: CreateRestaurantInput) {
     await prisma.restaurant.create({
       data: {
         name,
@@ -24,7 +26,7 @@ export class RestaurantRepository {
     });
   }
 
-  async findById(id: string): Promise<Restaurant | null> {
+  async findById(id: Restaurant['id']) {
     const restaurant = await prisma.restaurant.findUnique({
       where: {
         id,
@@ -33,7 +35,7 @@ export class RestaurantRepository {
     return restaurant;
   }
 
-  async findProducts({ id }: Pick<Restaurant, 'id'>) {
+  async findProducts(id: Restaurant['id']) {
     const products = await prisma.restaurant.findUnique({
       where: {
         id,

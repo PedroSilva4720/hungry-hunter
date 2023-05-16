@@ -1,27 +1,31 @@
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { OrderRepositories } from '../repositories/order';
-import { User } from '../types/user';
+import { User } from '@t/user';
+import { IOrderModel, IOrderRepository } from '@t/order';
+import { Product } from '@t/product';
 
-export class OrderModels {
+export class OrderModels implements IOrderModel {
   public id: string;
   public createdAt: string;
   public deliveredAt?: string;
   public user: User;
-  public userId: string;
-  public productId: string;
+  public userId: User['id'];
+  public productId: Product['id'];
 
-  async create(): Promise<void> {
+  constructor(private orderRepository: IOrderRepository) {}
+
+  async create() {
     this.createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss', {
       locale: ptBR,
     });
 
-    const Repository = new OrderRepositories();
-
-    await Repository.create({
-      userId: this.userId,
-      productId: this.productId,
-      createdAt: this.createdAt,
-    });
+    await this.orderRepository.create(
+      {
+        createdAt: this.createdAt,
+        productId: this.productId,
+        user: {},
+      },
+      this.userId
+    );
   }
 }

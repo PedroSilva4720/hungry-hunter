@@ -1,11 +1,14 @@
-import { UserMiddlewares } from '../middlewares/user';
-import { UserModels } from '../models/user';
+import { UserRepository } from '@repo/user';
+import { UserMiddlewares } from '@middlewares/user';
+import { UserModels } from '@models/user';
+import { IUserController } from '@t/user';
 
-export class UserControllers {
+export class UserControllers implements IUserController {
   async create(req, rep) {
     const { name, email, unHashedPassword } = req.body;
 
-    const Model = new UserModels();
+    const Repository = new UserRepository();
+    const Model = new UserModels(Repository);
 
     Object.assign(Model, {
       name,

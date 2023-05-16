@@ -1,11 +1,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { RestaurantModels } from '../models/restaurant';
+import { RestaurantModels } from '@models/restaurant';
+import { RestaurantRepository } from '@repo/restaurant';
+import { IRestaurantController } from '@t/restaurant';
 
-export class RestaurantControllers {
+export class RestaurantControllers implements IRestaurantController {
   async create(req, rep: FastifyReply) {
     const { name, email, address, phoneNumber, password } = req.body;
 
-    const Model = new RestaurantModels();
+    const Repository = new RestaurantRepository();
+    const Model = new RestaurantModels(Repository);
 
     Object.assign(Model, {
       name,
@@ -23,19 +26,21 @@ export class RestaurantControllers {
   async findById(req, rep: FastifyReply) {
     const { id } = req.body;
 
-    const Model = new RestaurantModels();
+    const Repository = new RestaurantRepository();
+    const Model = new RestaurantModels(Repository);
 
-    const restaurant = await Model.findById({ id });
+    const restaurant = await Model.findById(id);
 
-    return restaurant;
+    return { restaurant };
   }
 
   async findProducts(req: FastifyRequest, rep: FastifyReply) {
     const id = req.params;
 
-    const Model = new RestaurantModels();
+    const Repository = new RestaurantRepository();
+    const Model = new RestaurantModels(Repository);
 
-    const products = await Model.findProducts({ id } as { id: string });
+    const products = await Model.findProducts(id as string);
 
     return products;
   }
