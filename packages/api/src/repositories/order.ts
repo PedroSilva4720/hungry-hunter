@@ -1,5 +1,5 @@
 import { prisma } from '@@/prisma/prisma';
-import { CreateOrderInput, IOrderRepository, Order } from '@t/order';
+import { CreateOrderInput, IOrderRepository } from '@t/order';
 import { User } from '@t/user';
 
 export class OrderRepositories implements IOrderRepository {

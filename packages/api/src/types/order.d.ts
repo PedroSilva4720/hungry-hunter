@@ -21,5 +21,5 @@ export interface IOrderModel {
 }
 
 export interface IOrderController {
-  create(req, res): Promise<{}>;
+  create(req, res): Promise<object>;
 }
