@@ -1,16 +1,25 @@
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { z } from 'zod';
+
 import { ProductModel } from '@models/product';
 import { ProductRepositories } from '@repo/product';
 import { IProductController } from '@t/product';
-import { FastifyReply, FastifyRequest } from 'fastify';
 
 export class ProductControllers implements IProductController {
-  async create(req, rep: FastifyReply) {
-    const { name, description, price, restaurantId } = req.body;
+  async create(req: FastifyRequest, rep: FastifyReply) {
+    const schema = z.object({
+      name: z.string(),
+      description: z.string(),
+      price: z.number(),
+      restaurantId: z.string(),
+    });
+
+    const { name, description, price, restaurantId } = schema.parse(req.body);
 
     const Repository = new ProductRepositories();
     const Model = new ProductModel(Repository);
 
-    Model.restaurantId = await restaurantId;
+    Model.restaurantId = restaurantId;
 
     Object.assign(Model, {
       name,
@@ -19,11 +28,17 @@ export class ProductControllers implements IProductController {
     });
 
     await Model.create();
-    return;
+
+    rep.status(201);
+    return {};
   }
 
-  async findById(req, rep: FastifyReply) {
-    const { id } = req.params;
+  async findById(req: FastifyRequest, _rep: FastifyReply) {
+    const schema = z.object({
+      id: z.string(),
+    });
+
+    const { id } = schema.parse(req.params);
 
     const Repository = new ProductRepositories();
     const Model = new ProductModel(Repository);
@@ -32,7 +47,7 @@ export class ProductControllers implements IProductController {
 
     return { product };
   }
-  async listProducts(req, rep) {
+  async listProducts(_req: FastifyRequest, _rep: FastifyReply) {
     const Repository = new ProductRepositories();
     const Model = new ProductModel(Repository);
 

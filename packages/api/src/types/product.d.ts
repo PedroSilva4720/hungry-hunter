@@ -36,7 +36,7 @@ export interface IProductModel {
 }
 
 export interface IProductController {
-  create(req, rep): Promise<void>;
+  create(req, rep): Promise<object>;
   findById(req, rep): Promise<{ product: Product }>;
   listProducts(req, rep): Promise<{ products: ReturnProductList[] }>;
 }

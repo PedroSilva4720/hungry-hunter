@@ -1,11 +1,23 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { z } from 'zod';
+
 import { RestaurantModels } from '@models/restaurant';
 import { RestaurantRepository } from '@repo/restaurant';
 import { IRestaurantController } from '@t/restaurant';
 
 export class RestaurantControllers implements IRestaurantController {
-  async create(req, rep: FastifyReply) {
-    const { name, email, address, phoneNumber, password } = req.body;
+  async create(req: FastifyRequest, rep: FastifyReply) {
+    const schema = z.object({
+      name: z.string(),
+      email: z.string().email(),
+      address: z.string(),
+      phoneNumber: z.string(),
+      password: z.string(),
+    });
+
+    const { name, email, address, phoneNumber, password } = schema.parse(
+      req.body
+    );
 
     const Repository = new RestaurantRepository();
     const Model = new RestaurantModels(Repository);
@@ -23,8 +35,8 @@ export class RestaurantControllers implements IRestaurantController {
     return rep.status(201).send();
   }
 
-  async findById(req, rep: FastifyReply) {
-    const { id } = req.body;
+  async findById(req: FastifyRequest, _rep: FastifyReply) {
+    const { id } = z.object({ id: z.string() }).parse(req.body);
 
     const Repository = new RestaurantRepository();
     const Model = new RestaurantModels(Repository);
@@ -34,7 +46,7 @@ export class RestaurantControllers implements IRestaurantController {
     return { restaurant };
   }
 
-  async findProducts(req: FastifyRequest, rep: FastifyReply) {
+  async findProducts(req: FastifyRequest, _rep: FastifyReply) {
     const id = req.params;
 
     const Repository = new RestaurantRepository();

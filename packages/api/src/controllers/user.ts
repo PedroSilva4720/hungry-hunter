@@ -1,11 +1,20 @@
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { z } from 'zod';
+
 import { UserRepository } from '@repo/user';
 import { UserMiddlewares } from '@middlewares/user';
 import { UserModels } from '@models/user';
 import { IUserController } from '@t/user';
 
 export class UserControllers implements IUserController {
-  async create(req, rep) {
-    const { name, email, unHashedPassword } = req.body;
+  async create(req: FastifyRequest, rep: FastifyReply) {
+    const schema = z.object({
+      name: z.string(),
+      email: z.string().email(),
+      unHashedPassword: z.string(),
+    });
+
+    const { name, email, unHashedPassword } = schema.parse(req.body);
 
     const Repository = new UserRepository();
     const Model = new UserModels(Repository);
@@ -18,10 +27,12 @@ export class UserControllers implements IUserController {
 
     Model.create();
 
+    rep.status(201);
+
     return {};
   }
 
-  async login(req, rep) {
+  async login(req: FastifyRequest, _rep: FastifyReply) {
     const authString = req.headers.authorization;
 
     const [email, password] = Buffer.from(authString.split(' ')[1], 'base64')
