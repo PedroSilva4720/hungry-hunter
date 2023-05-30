@@ -12,7 +12,7 @@ export class UserRepository implements IUserRepository {
     });
   }
 
-  async verifyExistentUser(email: User['email']) {
+  async findByEmail(email: User['email']) {
     const user = await prisma.user.findUnique({
       where: {
         email,
@@ -22,7 +22,7 @@ export class UserRepository implements IUserRepository {
     return user;
   }
 
-  async verifyExistentUserById(id: User['id']) {
+  async findById(id: User['id']) {
     const user = await prisma.user.findUnique({
       where: {
         id,

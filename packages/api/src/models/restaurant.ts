@@ -6,6 +6,7 @@ import {
   IRestaurantModel,
 } from '@t/restaurant';
 import { hash } from 'argon2';
+import { RestaurantAlreadyExistsError } from '@errors/errors';
 
 export class RestaurantModels implements IRestaurantModel {
   public id: string;
@@ -20,6 +21,12 @@ export class RestaurantModels implements IRestaurantModel {
   constructor(private restaurantRepository: IRestaurantRepository) {}
 
   async create() {
+    const restaurant = await this.restaurantRepository.findByEmail(this.email);
+
+    if (restaurant) {
+      throw new RestaurantAlreadyExistsError();
+    }
+
     this.createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss', {
       locale: ptBR,
     });

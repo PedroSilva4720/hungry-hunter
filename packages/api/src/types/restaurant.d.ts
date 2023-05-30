@@ -1,3 +1,4 @@
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { Product } from './product.d';
 import { Prisma, restaurant } from '@prisma/client';
 
@@ -8,6 +9,7 @@ export type CreateRestaurantInput = Prisma.restaurantCreateInput;
 export interface IRestaurantRepository {
   create(data: CreateRestaurantInput): Promise<void>;
   findById(id: Restaurant['id']): Promise<Restaurant | null>;
+  findByEmail(email: Restaurant['email']): Promise<Restaurant | null>;
   findProducts(id: Restaurant['id']): Promise<{ products: Product[] }>;
 }
 
@@ -24,7 +26,13 @@ export interface IRestaurantModel {
 }
 
 export interface IRestaurantController {
-  create(req, res): Promise<void>;
-  findById(req, res): Promise<{ restaurant: Restaurant }>;
-  findProducts(req, res): Promise<{ products: Product[] }>;
+  create(req: FastifyRequest, rep: FastifyReply): Promise<void>;
+  findById(
+    req: FastifyRequest,
+    rep: FastifyReply
+  ): Promise<{ restaurant: Restaurant }>;
+  findProducts(
+    req: FastifyRequest,
+    rep: FastifyReply
+  ): Promise<{ products: Product[] }>;
 }

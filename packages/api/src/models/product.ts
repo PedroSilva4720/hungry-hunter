@@ -12,7 +12,7 @@ export class ProductModel implements IProductModel {
 
   constructor(private productRepository: IProductRepository) {}
 
-  get restaurantI() {
+  get restaurantId() {
     return this._restaurantId;
   }
 
@@ -29,6 +29,7 @@ export class ProductModel implements IProductModel {
       this._restaurant = restaurant;
     }
   }
+
   async create() {
     await this.productRepository.create(
       {

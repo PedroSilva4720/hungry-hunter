@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { RestaurantModels } from '@models/restaurant';
 import { RestaurantRepository } from '@repo/restaurant';
 import { IRestaurantController } from '@t/restaurant';
+import { InternalServerError } from '@errors/errors';
 
 export class RestaurantControllers implements IRestaurantController {
   async create(req: FastifyRequest, rep: FastifyReply) {
@@ -29,8 +30,11 @@ export class RestaurantControllers implements IRestaurantController {
       phoneNumber,
       unHashedPassword: password,
     });
-
-    await Model.create();
+    try {
+      await Model.create();
+    } catch (error) {
+      throw new InternalServerError(error);
+    }
 
     return rep.status(201).send();
   }
@@ -47,12 +51,12 @@ export class RestaurantControllers implements IRestaurantController {
   }
 
   async findProducts(req: FastifyRequest, _rep: FastifyReply) {
-    const id = req.params;
+    const { id } = z.object({ id: z.string() }).parse(req.params);
 
     const Repository = new RestaurantRepository();
     const Model = new RestaurantModels(Repository);
 
-    const products = await Model.findProducts(id as string);
+    const products = await Model.findProducts(id);
 
     return products;
   }

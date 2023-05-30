@@ -2,6 +2,7 @@ import { verify } from 'argon2';
 import { sign, verify as verifyJWT } from 'jsonwebtoken';
 import { UserRepository } from '@repo/user';
 import { User } from '@t/user';
+import { InvalidLoginPropsError } from '@errors/errors';
 
 export class UserMiddlewares {
   public jwt: string;
@@ -12,10 +13,10 @@ export class UserMiddlewares {
   async verifyExistentUser() {
     const Repository = new UserRepository();
 
-    const user: User | null = await Repository.verifyExistentUser(this.email);
+    const user: User | null = await Repository.findByEmail(this.email);
 
     if (!user) {
-      throw new Error('Verifique o email ou a senha.');
+      throw new InvalidLoginPropsError();
     }
 
     this.user = user;
@@ -29,13 +30,13 @@ export class UserMiddlewares {
     );
 
     if (!passwordMatch) {
-      throw new Error('Verifique o email ou a senha.');
+      throw new InvalidLoginPropsError();
     }
   }
   generateJWT() {
     const jwt = sign(
       { id: this.user.id, email: this.user.email, name: this.user.name },
-      process.env.SECRET!,
+      process.env.SECRET,
       {
         expiresIn: '15d',
       }
@@ -46,9 +47,9 @@ export class UserMiddlewares {
   async verifyJWT(id: string) {
     const Repository = new UserRepository();
 
-    const user = await Repository.verifyExistentUserById(id);
+    const user = await Repository.findById(id);
 
-    const result = verifyJWT(this.jwt, process.env.SECRET!);
+    const result = verifyJWT(this.jwt, process.env.SECRETs);
 
     return typeof result != 'string' && result.id == user?.id;
   }

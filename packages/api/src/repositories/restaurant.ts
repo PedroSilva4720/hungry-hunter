@@ -25,6 +25,14 @@ export class RestaurantRepository implements IRestaurantRepository {
       },
     });
   }
+  async findByEmail(email: Restaurant['email']) {
+    const restaurant = await prisma.restaurant.findUnique({
+      where: {
+        email,
+      },
+    });
+    return restaurant;
+  }
 
   async findById(id: Restaurant['id']) {
     const restaurant = await prisma.restaurant.findUnique({

@@ -5,6 +5,7 @@ import { UserRepository } from '@repo/user';
 import { UserMiddlewares } from '@middlewares/user';
 import { UserModels } from '@models/user';
 import { IUserController } from '@t/user';
+import { InternalServerError } from '@errors/errors';
 
 export class UserControllers implements IUserController {
   async create(req: FastifyRequest, rep: FastifyReply) {
@@ -25,7 +26,11 @@ export class UserControllers implements IUserController {
       unHashedPassword,
     });
 
-    Model.create();
+    try {
+      await Model.create();
+    } catch (error) {
+      throw new InternalServerError(error);
+    }
 
     rep.status(201);
 

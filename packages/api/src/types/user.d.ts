@@ -6,12 +6,12 @@ export type CreateUserInput = Prisma.userCreateInput;
 
 export interface IUserRepository {
   create(data: CreateUserInput): Promise<void>;
-  verifyExistentUser(email: User['email']): Promise<User>;
-  verifyExistentUserById(id: User['id']): Promise<User>;
+  findByEmail(email: User['email']): Promise<User>;
+  findById(id: User['id']): Promise<User>;
 }
 
 export interface IUserController {
-  create(req, res): Promise<{}>;
+  create(req, res): Promise<object>;
   login(req, res): Promise<{ jwt: string }>;
 }
 

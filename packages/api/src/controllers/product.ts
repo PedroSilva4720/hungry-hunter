@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { ProductModel } from '@models/product';
 import { ProductRepositories } from '@repo/product';
 import { IProductController } from '@t/product';
+import { InternalServerError } from '@errors/errors';
 
 export class ProductControllers implements IProductController {
   async create(req: FastifyRequest, rep: FastifyReply) {
@@ -26,8 +27,11 @@ export class ProductControllers implements IProductController {
       description,
       price,
     });
-
-    await Model.create();
+    try {
+      await Model.create();
+    } catch (error) {
+      throw new InternalServerError(error);
+    }
 
     rep.status(201);
     return {};

@@ -4,6 +4,7 @@ import z from 'zod';
 import { OrderModels } from '@models/order';
 import { OrderRepositories } from '@repo/order';
 import { IOrderController } from '@t/order';
+import { InternalServerError } from '@errors/errors';
 
 export class OrderControllers implements IOrderController {
   async create(req: FastifyRequest, rep: FastifyReply) {
@@ -21,7 +22,11 @@ export class OrderControllers implements IOrderController {
       productId,
     });
 
-    Model.create();
+    try {
+      await Model.create();
+    } catch (error) {
+      throw new InternalServerError(error);
+    }
 
     rep.status(201);
 

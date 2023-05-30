@@ -13,9 +13,23 @@ export class InMemoryRestaurantRepository implements IRestaurantRepository {
     this.restaurants.push({ ...data, id: randomUUID() });
     return;
   }
-  async findById(id: Restaurant['id']): Promise<Restaurant> {
-    return this.restaurants.find(item => item.id === id);
+
+  async findByEmail(email: Restaurant['email']) {
+    const restaurant = this.restaurants.find(item => item.email === email);
+    if (!restaurant) {
+      return null;
+    }
+    return restaurant;
   }
+
+  async findById(id: Restaurant['id']): Promise<Restaurant> {
+    const restaurant = this.restaurants.find(item => item.id === id);
+    if (!restaurant) {
+      return null;
+    }
+    return restaurant;
+  }
+
   async findProducts(id: Restaurant['id']): Promise<{ products: Product[] }> {
     const products: Product[] = [
       {
