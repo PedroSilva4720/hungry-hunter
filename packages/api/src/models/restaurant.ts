@@ -1,12 +1,13 @@
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+
 import {
   Restaurant,
   IRestaurantRepository,
   IRestaurantModel,
 } from '@t/restaurant';
-import { hash } from 'argon2';
 import { RestaurantAlreadyExistsError } from '@errors/errors';
+import { hashPassword } from '@utils/utils';
 
 export class RestaurantModels implements IRestaurantModel {
   public id: string;
@@ -31,7 +32,7 @@ export class RestaurantModels implements IRestaurantModel {
       locale: ptBR,
     });
 
-    this.passwordHash = await hash(this.unHashedPassword);
+    this.passwordHash = await hashPassword(this.unHashedPassword);
 
     this.restaurantRepository.create({
       name: this.name,

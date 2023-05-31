@@ -1,6 +1,6 @@
-import { hash } from 'argon2';
 import { IUserModel, IUserRepository } from '@t/user';
 import { UserAlreadyExistsError } from '@errors/errors';
+import { hashPassword } from '@utils/utils';
 
 export class UserModels implements IUserModel {
   public id: string;
@@ -18,7 +18,7 @@ export class UserModels implements IUserModel {
       throw new UserAlreadyExistsError();
     }
 
-    this.passwordHash = await hash(this.unHashedPassword);
+    this.passwordHash = await hashPassword(this.unHashedPassword);
 
     await this.userRepository.create({
       email: this.email,

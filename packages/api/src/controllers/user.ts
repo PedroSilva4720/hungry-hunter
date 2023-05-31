@@ -6,6 +6,7 @@ import { UserMiddlewares } from '@middlewares/user';
 import { UserModels } from '@models/user';
 import { IUserController } from '@t/user';
 import { InternalServerError } from '@errors/errors';
+import { decodeBasicToken } from '@utils/utils';
 
 export class UserControllers implements IUserController {
   async create(req: FastifyRequest, rep: FastifyReply) {
@@ -40,9 +41,7 @@ export class UserControllers implements IUserController {
   async login(req: FastifyRequest, _rep: FastifyReply) {
     const authString = req.headers.authorization;
 
-    const [email, password] = Buffer.from(authString.split(' ')[1], 'base64')
-      .toString('utf-8')
-      .split(':');
+    const { email, password } = decodeBasicToken(authString);
 
     const Middleware = new UserMiddlewares();
 
