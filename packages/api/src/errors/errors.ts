@@ -29,7 +29,7 @@ export class UserAlreadyExistsError
   implements IUserAlreadyExistsError
 {
   constructor(
-    public message: string = 'Usuário já existe, por favor faça login'
+    public message: string = 'Usuário já existe, por favor faça login.'
   ) {
     super(message);
   }

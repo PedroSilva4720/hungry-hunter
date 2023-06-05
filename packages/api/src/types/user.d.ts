@@ -20,5 +20,16 @@ export interface IUserModel {
   name: string;
   email: string;
   unHashedPassword: string;
+  user: User;
   create(): Promise<void>;
+}
+
+export interface IUserMiddlewares {
+  jwt: string;
+  email: string;
+  unHashedPassword: string;
+  verifyExistentUser(): Promise<User>;
+  verifyPassword(): Promise<void>;
+  generateJWT(): void;
+  verifyJWT(id: User['id']): Promise<boolean>;
 }

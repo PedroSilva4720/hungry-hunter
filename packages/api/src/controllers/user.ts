@@ -43,7 +43,7 @@ export class UserControllers implements IUserController {
 
     const { email, password } = decodeBasicToken(authString);
 
-    const Middleware = new UserMiddlewares();
+    const Middleware = new UserMiddlewares(new UserRepository());
 
     Middleware.email = email;
     Middleware.unHashedPassword = password;

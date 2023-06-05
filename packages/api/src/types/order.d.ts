@@ -1,25 +1,23 @@
 import { Prisma, order } from '@prisma/client';
-import { User } from './user';
-import { Product } from './product';
+import { FastifyRequest } from 'fastify';
 
 export type Order = order;
 
-export type CreateOrderInput = Prisma.orderCreateInput;
+export type CreateOrderInput = Prisma.orderUncheckedCreateInput;
 
 export interface IOrderRepository {
-  create(data: CreateOrderInput, userId: User['id']): Promise<void>;
+  create(data: CreateOrderInput): Promise<void>;
 }
 
 export interface IOrderModel {
   id: string;
   createdAt: string;
   deliveredAt?: string;
-  user: User;
-  userId: User['id'];
-  productId: Product['id'];
+  userId: Order['userId'];
+  productId: Order['productId'];
   create(): Promise<void>;
 }
 
 export interface IOrderController {
-  create(req, res): Promise<object>;
+  create(req: FastifyRequest, rep: FastifyRequest): Promise<object>;
 }

@@ -1,19 +1,19 @@
 import { verify } from 'argon2';
 import { sign, verify as verifyJWT } from 'jsonwebtoken';
-import { UserRepository } from '@repo/user';
-import { User } from '@t/user';
+
+import { IUserMiddlewares, IUserRepository, User } from '@t/user';
 import { InvalidLoginPropsError } from '@errors/errors';
 
-export class UserMiddlewares {
+export class UserMiddlewares implements IUserMiddlewares {
   public jwt: string;
   public email: string;
   public unHashedPassword: string;
-  private user: User;
+  public user: User;
+
+  constructor(public UserRepository: IUserRepository) {}
 
   async verifyExistentUser() {
-    const Repository = new UserRepository();
-
-    const user: User | null = await Repository.findByEmail(this.email);
+    const user = await this.UserRepository.findByEmail(this.email);
 
     if (!user) {
       throw new InvalidLoginPropsError();
@@ -45,11 +45,9 @@ export class UserMiddlewares {
   }
 
   async verifyJWT(id: string) {
-    const Repository = new UserRepository();
+    const user = await this.UserRepository.findById(id);
 
-    const user = await Repository.findById(id);
-
-    const result = verifyJWT(this.jwt, process.env.SECRETs);
+    const result = verifyJWT(this.jwt, process.env.SECRET);
 
     return typeof result != 'string' && result.id == user?.id;
   }

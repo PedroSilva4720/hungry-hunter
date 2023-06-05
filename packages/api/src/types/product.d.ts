@@ -1,9 +1,8 @@
 import { Prisma, product } from '@prisma/client';
-import { Restaurant } from './restaurant';
 
 export type Product = product;
 
-export type CreateProductInput = Prisma.productCreateInput;
+export type CreateProductInput = Prisma.productUncheckedCreateInput;
 
 export type ReturnProductList = {
   id: string;
@@ -17,10 +16,7 @@ export type ReturnProductList = {
 };
 
 export interface IProductRepository {
-  create(
-    data: CreateProductInput,
-    restaurantId: Restaurant['id']
-  ): Promise<void>;
+  create(data: CreateProductInput): Promise<void>;
   findById(id: Product['id']): Promise<Product>;
   listProducts(): Promise<ReturnProductList[]>;
 }

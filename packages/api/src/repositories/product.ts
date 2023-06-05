@@ -1,12 +1,8 @@
 import { CreateProductInput, IProductRepository, Product } from '@t/product';
 import { prisma } from '@@/prisma/prisma';
-import { Restaurant } from '@t/restaurant';
 
 export class ProductRepositories implements IProductRepository {
-  async create(
-    { name, price, description }: CreateProductInput,
-    restaurantId: Restaurant['id']
-  ) {
+  async create({ name, price, description, restaurantId }: CreateProductInput) {
     await prisma.product.create({
       data: {
         name,

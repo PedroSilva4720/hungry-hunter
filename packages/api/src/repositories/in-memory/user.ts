@@ -2,13 +2,13 @@ import { randomUUID } from 'node:crypto';
 import { IUserRepository, CreateUserInput, User } from '@t/user';
 
 export class InMemoryUserRepository implements IUserRepository {
-  private users: User[] = [];
+  public users: User[] = [];
 
   async create(data: CreateUserInput) {
-    this.users.push({ ...data, id: randomUUID() });
+    this.users.push({ ...data, id: data.id ?? randomUUID() });
     return;
   }
-  async verifyExistentUser(email: User['email']) {
+  async findByEmail(email: User['email']) {
     const user = this.users.find(item => item.email === email);
 
     if (!user) {
@@ -17,7 +17,7 @@ export class InMemoryUserRepository implements IUserRepository {
 
     return user;
   }
-  async verifyExistentUserById(id: User['id']) {
+  async findById(id: User['id']) {
     const user = this.users.find(item => item.id === id);
 
     if (!user) {

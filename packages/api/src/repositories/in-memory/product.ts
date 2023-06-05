@@ -8,8 +8,8 @@ import {
 
 export class InMemoryProductRepository implements IProductRepository {
   private products: Product[] = [];
-  async create(data: CreateProductInput, restaurantId: string) {
-    this.products.push({ ...data, restaurantId, id: randomUUID() });
+  async create(data: CreateProductInput) {
+    this.products.push({ ...data, id: randomUUID() });
     return;
   }
 

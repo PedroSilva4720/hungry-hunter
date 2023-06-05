@@ -1,9 +1,8 @@
 import { prisma } from '@@/prisma/prisma';
 import { CreateOrderInput, IOrderRepository } from '@t/order';
-import { User } from '@t/user';
 
 export class OrderRepositories implements IOrderRepository {
-  async create({ createdAt, productId }: CreateOrderInput, userId: User['id']) {
+  async create({ createdAt, productId, userId }: CreateOrderInput) {
     await prisma.order.create({
       data: {
         userId,
