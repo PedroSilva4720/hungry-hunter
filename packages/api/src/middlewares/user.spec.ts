@@ -5,6 +5,7 @@ import { InMemoryUserRepository } from '@repo/in-memory/user';
 
 import { UserMiddlewares } from './user';
 import { sign } from 'jsonwebtoken';
+import { InvalidLoginPropsError } from '@errors/errors';
 
 describe('User Middleware tests switch', () => {
   it('should successfully find an existent user', async () => {
@@ -85,5 +86,16 @@ describe('User Middleware tests switch', () => {
     sut.jwt = jwt;
 
     expect(sut.verifyJWT('123123abc')).resolves.toEqual(true);
+  });
+
+  it('should throw an error if try to verify json web token with wrong credentials', async () => {
+    vi.stubEnv('SECRET', 'secret');
+
+    const Repository = new InMemoryUserRepository();
+    const sut = new UserMiddlewares(Repository);
+
+    await expect(sut.verifyJWT('123123')).rejects.toBeInstanceOf(
+      InvalidLoginPropsError
+    );
   });
 });

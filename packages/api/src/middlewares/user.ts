@@ -47,6 +47,10 @@ export class UserMiddlewares implements IUserMiddlewares {
   async verifyJWT(id: string) {
     const user = await this.UserRepository.findById(id);
 
+    if (!user) {
+      throw new InvalidLoginPropsError();
+    }
+
     const result = verifyJWT(this.jwt, process.env.SECRET);
 
     return typeof result != 'string' && result.id == user?.id;
