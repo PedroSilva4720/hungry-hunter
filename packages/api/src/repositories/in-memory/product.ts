@@ -9,8 +9,11 @@ import {
 export class InMemoryProductRepository implements IProductRepository {
   private products: Product[] = [];
   async create(data: CreateProductInput) {
-    this.products.push({ ...data, id: randomUUID() });
-    return;
+    const product = { ...data, id: randomUUID() };
+
+    this.products.push(product);
+
+    return product;
   }
 
   async findById(id: Product['id']) {

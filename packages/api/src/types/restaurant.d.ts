@@ -7,7 +7,7 @@ export type Restaurant = restaurant;
 export type CreateRestaurantInput = Prisma.restaurantCreateInput;
 
 export interface IRestaurantRepository {
-  create(data: CreateRestaurantInput): Promise<void>;
+  create(data: CreateRestaurantInput): Promise<Restaurant>;
   findById(id: Restaurant['id']): Promise<Restaurant | null>;
   findByEmail(email: Restaurant['email']): Promise<Restaurant | null>;
   findProducts(id: Restaurant['id']): Promise<{ products: Product[] }>;
@@ -20,7 +20,7 @@ export interface IRestaurantModel {
   address: string;
   phoneNumber: string;
   unHashedPassword: string;
-  create(): Promise<void>;
+  create(): Promise<Restaurant>;
   findById(id: Restaurant['id']): Promise<Restaurant | null>;
   findProducts(id: Restaurant['id']): Promise<{ products: Product[] }>;
 }

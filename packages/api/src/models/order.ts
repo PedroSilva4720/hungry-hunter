@@ -17,10 +17,12 @@ export class OrderModels implements IOrderModel {
       locale: ptBR,
     });
 
-    await this.orderRepository.create({
+    const createdOrder = await this.orderRepository.create({
       createdAt: this.createdAt,
       productId: this.productId,
       userId: this.userId,
     });
+
+    return createdOrder;
   }
 }

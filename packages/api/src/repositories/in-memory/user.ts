@@ -5,8 +5,11 @@ export class InMemoryUserRepository implements IUserRepository {
   public users: User[] = [];
 
   async create(data: CreateUserInput) {
-    this.users.push({ ...data, id: data.id ?? randomUUID() });
-    return;
+    const user = { ...data, id: data.id ?? randomUUID() };
+
+    this.users.push(user);
+
+    return user;
   }
   async findByEmail(email: User['email']) {
     const user = this.users.find(item => item.email === email);

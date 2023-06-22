@@ -10,8 +10,11 @@ export class InMemoryRestaurantRepository implements IRestaurantRepository {
   private restaurants: Restaurant[] = [];
 
   async create(data: CreateRestaurantInput) {
-    this.restaurants.push({ ...data, id: randomUUID() });
-    return;
+    const restaurant = { ...data, id: randomUUID() };
+
+    this.restaurants.push(restaurant);
+
+    return restaurant;
   }
 
   async findByEmail(email: Restaurant['email']) {

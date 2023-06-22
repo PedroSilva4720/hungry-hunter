@@ -3,7 +3,7 @@ import { prisma } from '@@/prisma/prisma';
 
 export class ProductRepositories implements IProductRepository {
   async create({ name, price, description, restaurantId }: CreateProductInput) {
-    await prisma.product.create({
+    const product = await prisma.product.create({
       data: {
         name,
         price,
@@ -11,6 +11,8 @@ export class ProductRepositories implements IProductRepository {
         restaurantId,
       },
     });
+
+    return product;
   }
 
   async findById(id: Product['id']) {

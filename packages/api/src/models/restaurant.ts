@@ -34,7 +34,7 @@ export class RestaurantModels implements IRestaurantModel {
 
     this.passwordHash = await hashPassword(this.unHashedPassword);
 
-    this.restaurantRepository.create({
+    const createdRestaurant = await this.restaurantRepository.create({
       name: this.name,
       email: this.email,
       address: this.address,
@@ -42,6 +42,8 @@ export class RestaurantModels implements IRestaurantModel {
       phoneNumber: this.phoneNumber,
       passwordHash: this.passwordHash,
     });
+
+    return createdRestaurant;
   }
 
   async findById(id: Restaurant['id']) {

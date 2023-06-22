@@ -5,7 +5,7 @@ export type User = PrismaUser;
 export type CreateUserInput = Prisma.userCreateInput;
 
 export interface IUserRepository {
-  create(data: CreateUserInput): Promise<void>;
+  create(data: CreateUserInput): Promise<User>;
   findByEmail(email: User['email']): Promise<User>;
   findById(id: User['id']): Promise<User>;
 }
@@ -21,7 +21,7 @@ export interface IUserModel {
   email: string;
   unHashedPassword: string;
   user: User;
-  create(): Promise<void>;
+  create(): Promise<User>;
 }
 
 export interface IUserMiddlewares {

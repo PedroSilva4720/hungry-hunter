@@ -10,12 +10,14 @@ export class ProductModel implements IProductModel {
   constructor(private productRepository: IProductRepository) {}
 
   async create() {
-    await this.productRepository.create({
+    const createdProduct = await this.productRepository.create({
       name: this.name,
       price: this.price,
       description: this.description,
       restaurantId: this.restaurantId,
     });
+
+    return createdProduct;
   }
 
   async findById(id: Product['id']) {

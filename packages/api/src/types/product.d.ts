@@ -16,7 +16,7 @@ export type ReturnProductList = {
 };
 
 export interface IProductRepository {
-  create(data: CreateProductInput): Promise<void>;
+  create(data: CreateProductInput): Promise<Product>;
   findById(id: Product['id']): Promise<Product>;
   listProducts(): Promise<ReturnProductList[]>;
 }
@@ -26,7 +26,7 @@ export interface IProductModel {
   name: string;
   description: string;
   price: number;
-  create(): Promise<void>;
+  create(): Promise<Product>;
   findById(id: Product['id']): Promise<Product>;
   listProducts(): Promise<ReturnProductList[]>;
 }

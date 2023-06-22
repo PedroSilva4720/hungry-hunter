@@ -14,7 +14,7 @@ export class RestaurantRepository implements IRestaurantRepository {
     passwordHash,
     createdAt,
   }: CreateRestaurantInput) {
-    await prisma.restaurant.create({
+    const restaurant = await prisma.restaurant.create({
       data: {
         name,
         email,
@@ -24,6 +24,8 @@ export class RestaurantRepository implements IRestaurantRepository {
         passwordHash,
       },
     });
+
+    return restaurant;
   }
   async findByEmail(email: Restaurant['email']) {
     const restaurant = await prisma.restaurant.findUnique({
