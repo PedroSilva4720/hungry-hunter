@@ -1,5 +1,5 @@
 import { createStitches, globalCss } from '@stitches/react';
-import { mauve } from '@radix-ui/colors';
+import { mauve, red, tomato } from '@radix-ui/colors';
 
 export const { styled } = createStitches({
   theme: {
@@ -11,13 +11,15 @@ export const { styled } = createStitches({
       brownStandard: '#795548',
       greenStandard: '#388e3c',
       ...mauve,
+      ...red,
+      ...tomato,
     },
     fontSizes: {
       xs: '1rem',
-      sm: '1.25rem',
+      sm: '1.5rem',
       md: '2rem',
       lg: '4rem',
-      xl: '4.5rem',
+      xl: '5rem',
     },
     radii: {
       sm: '4px',
@@ -56,7 +58,6 @@ export const { styled } = createStitches({
 
 export const globalStyle = globalCss({
   '*': { margin: 0, padding: 0, border: 0, boxSizing: 'border-box' },
-
   'html, body, input, textarea': {
     fontFamily: `'Inter', sans-serif`,
   },
