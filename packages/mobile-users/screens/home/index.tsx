@@ -18,6 +18,7 @@ export const Home = ({ navigation }: { navigation: any }) => {
     SecureStore.getItemAsync('token').then((token: string | null) => {
       if (token) {
         setAuth(token);
+        //TODO validate if token is valid
       } else {
         navigation.push('Login');
       }

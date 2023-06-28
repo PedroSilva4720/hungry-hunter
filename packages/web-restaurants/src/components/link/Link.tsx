@@ -2,10 +2,12 @@ import React from 'react';
 
 import { styled } from '@s/index';
 
-export const Link: React.FC<{ to: string; placeholder: string }> = ({
-  to,
-  placeholder,
-}) => {
+interface ILinkProps {
+  to: string;
+  placeholder: string;
+}
+
+export const Link: React.FC<ILinkProps> = ({ to, placeholder }) => {
   return (
     <>
       <HTMLLink href={to}>{placeholder}</HTMLLink>

@@ -33,8 +33,8 @@ export default function App() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='Login' component={Login} />
+        <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='CreateUser' component={CreateUser} />
       </Stack.Navigator>
     </NavigationContainer>
