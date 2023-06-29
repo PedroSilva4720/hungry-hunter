@@ -1,4 +1,5 @@
 import { Prisma, user as PrismaUser } from '@prisma/client';
+import { FastifyReply, FastifyRequest } from 'fastify';
 
 export type User = PrismaUser;
 
@@ -11,8 +12,9 @@ export interface IUserRepository {
 }
 
 export interface IUserController {
-  create(req, res): Promise<object>;
-  login(req, res): Promise<{ jwt: string }>;
+  create(req: FastifyRequest, res: FastifyReply): Promise<object>;
+  login(req: FastifyRequest, res: FastifyReply): Promise<{ token: string }>;
+  verifyToken(req: FastifyRequest, rep: FastifyReply): Promise<User>;
 }
 
 export interface IUserModel {
@@ -30,6 +32,5 @@ export interface IUserMiddlewares {
   unHashedPassword: string;
   verifyExistentUser(): Promise<User>;
   verifyPassword(): Promise<void>;
-  generateJWT(): void;
-  verifyJWT(id: User['id']): Promise<boolean>;
+  verifyToken(req: FastifyRequest): Promise<User>;
 }

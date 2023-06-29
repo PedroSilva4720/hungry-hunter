@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import fastifyJwt from '@fastify/jwt';
 
 import { OrderRoutes } from '@routes/order';
 import { ProductRouter } from '@routes/product';
@@ -8,6 +9,10 @@ import { errorHandler } from '@errors/error-handler';
 
 export const app = fastify({
   logger: true,
+});
+
+app.register(fastifyJwt, {
+  secret: process.env.SECRET,
 });
 
 app.setErrorHandler(errorHandler);

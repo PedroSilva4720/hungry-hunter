@@ -12,11 +12,11 @@
     "test:coverage": "vitest run  --coverage"
   },
   "dependencies": {
+    "@fastify/jwt": "^7.1.0",
     "@prisma/client": "^4.10.1",
     "argon2": "^0.30.3",
     "date-fns": "^2.29.3",
     "fastify": "^4.13.0",
-    "jsonwebtoken": "^9.0.0",
     "supertest": "^6.3.3",
     "zod": "^3.21.4"
   },

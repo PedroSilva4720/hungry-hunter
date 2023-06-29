@@ -1,5 +1,6 @@
+import { FastifyRequest } from 'fastify';
 import { verify } from 'argon2';
-import { sign, verify as verifyJWT } from 'jsonwebtoken';
+import { z } from 'zod';
 
 import { IUserMiddlewares, IUserRepository, User } from '@t/user';
 import { InvalidLoginPropsError } from '@errors/errors';
@@ -10,7 +11,7 @@ export class UserMiddlewares implements IUserMiddlewares {
   public unHashedPassword: string;
   public user: User;
 
-  constructor(public UserRepository: IUserRepository) {}
+  constructor(private UserRepository: IUserRepository) {}
 
   async verifyExistentUser() {
     const user = await this.UserRepository.findByEmail(this.email);
@@ -33,26 +34,20 @@ export class UserMiddlewares implements IUserMiddlewares {
       throw new InvalidLoginPropsError();
     }
   }
-  generateJWT() {
-    const jwt = sign(
-      { id: this.user.id, email: this.user.email, name: this.user.name },
-      process.env.SECRET,
-      {
-        expiresIn: '15d',
-      }
-    );
-    this.jwt = jwt;
-  }
 
-  async verifyJWT(id: string) {
+  async verifyToken(req: FastifyRequest) {
+    const schema = z.object({
+      user: z.string(),
+      iat: z.number(),
+    });
+    const { user: id } = schema.parse(await req.jwtVerify());
+
     const user = await this.UserRepository.findById(id);
 
     if (!user) {
       throw new InvalidLoginPropsError();
     }
 
-    const result = verifyJWT(this.jwt, process.env.SECRET);
-
-    return typeof result != 'string' && result.id == user?.id;
+    return user;
   }
 }

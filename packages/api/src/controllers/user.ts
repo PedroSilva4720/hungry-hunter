@@ -38,7 +38,7 @@ export class UserControllers implements IUserController {
     return {};
   }
 
-  async login(req: FastifyRequest, _rep: FastifyReply) {
+  async login(req: FastifyRequest, rep: FastifyReply) {
     const authString = req.headers.authorization;
 
     const { email, password } = decodeBasicToken(authString);
@@ -48,12 +48,23 @@ export class UserControllers implements IUserController {
     Middleware.email = email;
     Middleware.unHashedPassword = password;
 
-    await Middleware.verifyExistentUser();
+    const { id } = await Middleware.verifyExistentUser();
     await Middleware.verifyPassword();
-    Middleware.generateJWT();
 
-    const jwt = Middleware.jwt;
+    const token = await rep.jwtSign({
+      user: id,
+    });
 
-    return { jwt };
+    return { token };
+  }
+
+  async verifyToken(req: FastifyRequest, rep: FastifyReply) {
+    const Middleware = new UserMiddlewares(new UserRepository());
+
+    const user = await Middleware.verifyToken(req);
+
+    rep.status(200);
+
+    return { ...user, passwordHash: undefined };
   }
 }

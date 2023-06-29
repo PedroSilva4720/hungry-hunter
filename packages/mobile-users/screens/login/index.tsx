@@ -27,7 +27,7 @@ export const Login = ({ navigation }: { navigation: any }) => {
         },
       })
       .then(async response => {
-        await SecureStore.setItemAsync('token', response.data.jwt);
+        await SecureStore.setItemAsync('token', response.data.token);
         navigation.push('Home');
       })
       .catch(response => {
