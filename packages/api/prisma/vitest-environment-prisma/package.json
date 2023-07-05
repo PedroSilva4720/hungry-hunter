@@ -1,0 +1,7 @@
+{
+  "name": "vitest-environment-prisma",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "author": "Pedro Silva <pedro@andoras.com.br>",
+  "license": "MIT"
+}
