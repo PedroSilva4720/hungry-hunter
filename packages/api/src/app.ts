@@ -1,5 +1,7 @@
 import fastify from 'fastify';
 import fastifyJwt from '@fastify/jwt';
+import fastifySwagger from '@fastify/swagger';
+import fastifySwaggerUi from '@fastify/swagger-ui';
 
 import { OrderRoutes } from '@routes/order';
 import { ProductRouter } from '@routes/product';
@@ -13,6 +15,29 @@ export const app = fastify({
 
 app.register(fastifyJwt, {
   secret: process.env.SECRET,
+});
+
+app.register(fastifySwagger, {
+  swagger: {
+    info: {
+      title: 'Hungry-Hunter api',
+      version: '0.1.x',
+    },
+    host: 'localhost',
+    schemes: ['http'],
+    consumes: ['application/json'],
+    produces: ['application/json'],
+    tags: [
+      { name: 'user', description: 'User related end-points' },
+      { name: 'restaurant', description: 'Restaurant related end-points' },
+      { name: 'order', description: 'Order related end-points' },
+      { name: 'product', description: 'Product related end-points' },
+    ],
+  },
+});
+
+app.register(fastifySwaggerUi, {
+  routePrefix: '/route-docs',
 });
 
 app.setErrorHandler(errorHandler);

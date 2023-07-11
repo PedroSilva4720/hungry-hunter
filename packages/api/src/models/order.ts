@@ -13,6 +13,7 @@ export class OrderModels implements IOrderModel {
   constructor(private orderRepository: IOrderRepository) {}
 
   async create() {
+    //TODO: validate if user exists and product exists
     this.createdAt = format(new Date(), 'yyyy/MM/dd HH:mm:ss', {
       locale: ptBR,
     });

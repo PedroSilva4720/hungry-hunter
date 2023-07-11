@@ -1,8 +1,13 @@
 import { FastifyInstance } from 'fastify';
 import { UserControllers } from '../controllers/user';
+import { userGet, userGetAuth, userPost } from './docs/user.docs';
 
 export const UserRouter = async (fastify: FastifyInstance) => {
-  fastify.post('/create', new UserControllers().create);
-  fastify.get('/', new UserControllers().login);
-  fastify.get('/auth', new UserControllers().verifyToken);
+  fastify.post('/', { schema: userPost }, new UserControllers().create);
+  fastify.get('/', { schema: userGet }, new UserControllers().login);
+  fastify.get(
+    '/auth',
+    { schema: userGetAuth },
+    new UserControllers().verifyToken
+  );
 };

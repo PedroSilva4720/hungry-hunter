@@ -47,7 +47,7 @@ export class RestaurantControllers implements IRestaurantController {
 
     const restaurant = await Model.findById(id);
 
-    return { restaurant };
+    return { restaurant: { ...restaurant, passwordHash: undefined } };
   }
 
   async findProducts(req: FastifyRequest, _rep: FastifyReply) {

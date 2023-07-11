@@ -12,8 +12,8 @@ export const errorHandler = (
   _req: FastifyRequest,
   rep: FastifyReply
 ) => {
-  if (error instanceof InternalServerError) {
-    rep.status(500);
+  if (error instanceof InvalidLoginPropsError) {
+    rep.status(400);
     return { message: error.message };
   }
 
@@ -32,10 +32,11 @@ export const errorHandler = (
     return { message: error.message };
   }
 
-  if (error instanceof InvalidLoginPropsError) {
-    rep.status(400);
+  if (error instanceof InternalServerError) {
+    rep.status(500);
     return { message: error.message };
   }
+
   rep.status(500);
   return { message: error.message };
 };
