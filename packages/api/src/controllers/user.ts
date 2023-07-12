@@ -35,7 +35,7 @@ export class UserControllers implements IUserController {
 
     rep.status(201);
 
-    return {};
+    return 'criado com sucesso';
   }
 
   async login(req: FastifyRequest, rep: FastifyReply) {

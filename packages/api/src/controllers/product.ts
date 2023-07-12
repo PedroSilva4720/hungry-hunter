@@ -34,7 +34,7 @@ export class ProductControllers implements IProductController {
     }
 
     rep.status(201);
-    return {};
+    return 'criado com sucesso';
   }
 
   async findById(req: FastifyRequest, _rep: FastifyReply) {

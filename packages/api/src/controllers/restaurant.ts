@@ -36,7 +36,9 @@ export class RestaurantControllers implements IRestaurantController {
       throw new InternalServerError(error);
     }
 
-    return rep.status(201).send();
+    rep.status(201);
+
+    return 'criado com sucesso';
   }
 
   async findById(req: FastifyRequest, _rep: FastifyReply) {

@@ -30,6 +30,6 @@ export class OrderControllers implements IOrderController {
 
     rep.status(201);
 
-    return {};
+    return 'criado com sucesso';
   }
 }

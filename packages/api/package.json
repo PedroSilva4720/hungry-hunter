@@ -17,6 +17,7 @@
     "@fastify/swagger": "^8.8.0",
     "@fastify/swagger-ui": "^1.9.2",
     "@prisma/client": "^4.10.1",
+    "@types/supertest": "^2.0.12",
     "argon2": "^0.30.3",
     "date-fns": "^2.29.3",
     "fastify": "^4.13.0",

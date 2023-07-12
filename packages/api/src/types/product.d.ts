@@ -32,7 +32,7 @@ export interface IProductModel {
 }
 
 export interface IProductController {
-  create(req, rep): Promise<object>;
+  create(req, rep): Promise<string>;
   findById(req, rep): Promise<{ product: Product }>;
   listProducts(req, rep): Promise<{ products: ReturnProductList[] }>;
 }

@@ -26,7 +26,7 @@ export interface IRestaurantModel {
 }
 
 export interface IRestaurantController {
-  create(req: FastifyRequest, rep: FastifyReply): Promise<void>;
+  create(req: FastifyRequest, rep: FastifyReply): Promise<string>;
   findById(
     req: FastifyRequest,
     rep: FastifyReply

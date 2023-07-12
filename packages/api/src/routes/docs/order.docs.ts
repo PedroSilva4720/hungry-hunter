@@ -14,7 +14,7 @@ export const orderPostUserIdProductId: FastifySchema = {
   response: {
     201: {
       description: 'Ok',
-      type: 'null',
+      type: 'string',
     },
     409: {
       description: 'User already exists error',
@@ -28,9 +28,14 @@ export const orderPostUserIdProductId: FastifySchema = {
     },
     500: {
       description: 'Internal Server Error',
-      type: 'string',
-      example:
-        'Erro interno, por favor tente novamente dentro de alguns minutos.',
+      type: 'object',
+      properties: {
+        message: {
+          type: 'string',
+          example:
+            'Erro interno, por favor tente novamente dentro de alguns minutos.',
+        },
+      },
     },
   },
 };

@@ -19,5 +19,5 @@ export interface IOrderModel {
 }
 
 export interface IOrderController {
-  create(req: FastifyRequest, rep: FastifyReply): Promise<object>;
+  create(req: FastifyRequest, rep: FastifyReply): Promise<string>;
 }

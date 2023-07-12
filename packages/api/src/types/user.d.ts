@@ -12,7 +12,7 @@ export interface IUserRepository {
 }
 
 export interface IUserController {
-  create(req: FastifyRequest, res: FastifyReply): Promise<object>;
+  create(req: FastifyRequest, res: FastifyReply): Promise<string>;
   login(req: FastifyRequest, res: FastifyReply): Promise<{ token: string }>;
   verifyToken(req: FastifyRequest, rep: FastifyReply): Promise<User>;
 }

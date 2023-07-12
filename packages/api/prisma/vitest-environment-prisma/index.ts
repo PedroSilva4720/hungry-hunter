@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { execSync } from 'node:child_process';
+import { exec } from 'node:child_process';
 import { Environment } from 'vitest';
 import { PrismaClient } from '@prisma/client';
 
@@ -19,12 +19,12 @@ export default <Environment>{
 
     process.env.DATABASE_URL = databaseURL;
 
-    execSync('npx prisma migrate deploy');
+    exec('yarn prisma migrate deploy');
 
     return {
-      async teardown() {
-        await prisma.$executeRawUnsafe('DROP SCHEMA IF EXISTS "test" CASCADE');
-        await prisma.$disconnect();
+      teardown() {
+        prisma.$executeRawUnsafe('DROP SCHEMA IF EXISTS "test" CASCADE');
+        prisma.$disconnect();
       },
     };
   },

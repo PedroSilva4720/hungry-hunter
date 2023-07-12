@@ -17,11 +17,12 @@ export const restaurantPost: FastifySchema = {
   response: {
     201: {
       description: 'Ok',
-      type: 'null',
+      type: 'string',
     },
     401: {
       description: 'Bad credentials error',
-      type: 'string',
+      type: 'object',
+      properties: { message: {} },
     },
     409: {
       description: 'Restaurant already exists error',
@@ -35,9 +36,14 @@ export const restaurantPost: FastifySchema = {
     },
     500: {
       description: 'Internal Server Error',
-      type: 'string',
-      example:
-        'Erro interno, por favor tente novamente dentro de alguns minutos.',
+      type: 'object',
+      properties: {
+        message: {
+          type: 'string',
+          example:
+            'Erro interno, por favor tente novamente dentro de alguns minutos.',
+        },
+      },
     },
   },
 };
@@ -71,13 +77,19 @@ export const restaurantPostFind: FastifySchema = {
     },
     401: {
       description: 'Bad credentials error',
-      type: 'string',
+      type: 'object',
+      properties: { message: {} },
     },
     500: {
       description: 'Internal Server Error',
       type: 'string',
-      example:
-        'Erro interno, por favor tente novamente dentro de alguns minutos.',
+      properties: {
+        message: {
+          type: 'string',
+          example:
+            'Erro interno, por favor tente novamente dentro de alguns minutos.',
+        },
+      },
     },
   },
 };
@@ -106,13 +118,19 @@ export const restaurantGetId: FastifySchema = {
     },
     401: {
       description: 'Bad credentials error',
-      type: 'string',
+      type: 'object',
+      properties: { message: {} },
     },
     500: {
       description: 'Internal Server Error',
-      type: 'string',
-      example:
-        'Erro interno, por favor tente novamente dentro de alguns minutos.',
+      type: 'object',
+      properties: {
+        message: {
+          type: 'string',
+          example:
+            'Erro interno, por favor tente novamente dentro de alguns minutos.',
+        },
+      },
     },
   },
 };

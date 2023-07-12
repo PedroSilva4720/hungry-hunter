@@ -15,11 +15,12 @@ export const userPost: FastifySchema = {
   response: {
     201: {
       description: 'Ok',
-      type: 'null',
+      type: 'string',
     },
     401: {
       description: 'Bad credentials error',
-      type: 'string',
+      type: 'object',
+      properties: { message: {} },
     },
     409: {
       description: 'User already exists error',
@@ -33,9 +34,14 @@ export const userPost: FastifySchema = {
     },
     500: {
       description: 'Internal Server Error',
-      type: 'string',
-      example:
-        'Erro interno, por favor tente novamente dentro de alguns minutos.',
+      type: 'object',
+      properties: {
+        message: {
+          type: 'string',
+          example:
+            'Erro interno, por favor tente novamente dentro de alguns minutos.',
+        },
+      },
     },
   },
 };
@@ -67,15 +73,20 @@ export const userGet: FastifySchema = {
       type: 'object',
       properties: {
         message: {
-          type: 'string',
+          type: 'object',
           example: 'Dados de login inválidos, tente novamente.',
         },
       },
     },
     500: {
       description: 'Internal Server Error',
-      type: 'string',
-      example: 'Erro interno, por favor tente novamente.',
+      type: 'object',
+      properties: {
+        message: {
+          type: 'string',
+          example: 'Erro interno, por favor tente novamente.',
+        },
+      },
     },
   },
 };
@@ -114,7 +125,7 @@ export const userGetAuth: FastifySchema = {
       type: 'object',
       properties: {
         message: {
-          type: 'string',
+          type: 'object',
           example: 'Dados de login inválidos, tente novamente.',
         },
       },
