@@ -52,8 +52,25 @@ export class UserControllers implements IUserController {
     await Middleware.verifyPassword();
 
     const token = await rep.jwtSign({
-      user: id,
+      user: {
+        sub: id,
+      },
     });
+    const refreshToken = await rep.jwtSign({
+      sign: {
+        sub: id,
+        expiresIn: '7d',
+      },
+    });
+
+    rep
+      .setCookie('refreshToken', refreshToken, {
+        path: '/',
+        secure: true,
+        sameSite: true,
+        httpOnly: true,
+      })
+      .status(200);
 
     return { token };
   }

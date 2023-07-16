@@ -3,6 +3,7 @@ import {
   InternalServerError,
   InvalidLoginPropsError,
   RestaurantAlreadyExistsError,
+  UnauthorizedError,
   UserAlreadyExistsError,
 } from './errors';
 import { ZodError } from 'zod';
@@ -18,8 +19,12 @@ export const errorHandler = (
   }
 
   if (error instanceof ZodError) {
-    rep.status(401);
+    rep.status(400);
     return { message: error.format() };
+  }
+  if (error instanceof UnauthorizedError) {
+    rep.status(401);
+    return { message: error.message };
   }
 
   if (error instanceof RestaurantAlreadyExistsError) {

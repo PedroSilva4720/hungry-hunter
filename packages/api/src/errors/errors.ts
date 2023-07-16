@@ -45,3 +45,9 @@ export class InvalidLoginPropsError
     super(message);
   }
 }
+
+export class UnauthorizedError extends Error implements UnauthorizedError {
+  constructor(public message: string = 'Unauthorized') {
+    super(message);
+  }
+}

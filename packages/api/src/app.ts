@@ -1,5 +1,6 @@
 import fastify from 'fastify';
 import fastifyJwt from '@fastify/jwt';
+import fastifyCookie from '@fastify/cookie';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 
@@ -15,7 +16,16 @@ export const app = fastify({
 
 app.register(fastifyJwt, {
   secret: process.env.SECRET,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false,
+  },
+  sign: {
+    expiresIn: '10m',
+  },
 });
+
+app.register(fastifyCookie);
 
 app.register(fastifySwagger, {
   swagger: {
