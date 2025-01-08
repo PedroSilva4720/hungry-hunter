@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { Login } from './screens/login';
 import { CreateUser } from './screens/createUser';
+import { Loading } from './screens/loading';
 
 import {
   useFonts,
@@ -23,7 +24,7 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return null;
+    return <Loading />;
   }
 
   return (

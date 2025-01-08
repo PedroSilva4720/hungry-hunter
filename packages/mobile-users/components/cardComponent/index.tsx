@@ -12,8 +12,8 @@ import { useState } from 'react';
 export const CardComponent = ({ product }: { product: Product }) => {
   const [userId, setUserId] = useState<string | null>();
 
-  const orderSubmit = () => {
-    SecureStore.getItemAsync('userId').then(setUserId);
+  const orderSubmit = async () => {
+    await SecureStore.getItemAsync('userId').then(setUserId);
     axiosInstance
       .post(`/order/${userId}/${product.id}`)
       .then(response => console.log(response.status))

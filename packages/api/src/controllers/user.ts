@@ -55,7 +55,7 @@ export class UserControllers implements IUserController {
       user: id,
     });
 
-    return { token };
+    return { token, id };
   }
 
   async verifyToken(req: FastifyRequest, rep: FastifyReply) {
